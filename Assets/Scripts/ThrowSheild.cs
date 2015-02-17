@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class ThrowSheild : MonoBehaviour {
-    public GameObject throwShield;
+    private GameObject throwShield;
     public GameObject throwShieldPrefab;
     public GameObject holdShield;
 
     public bool throwing = false;
     public bool returning = false;
+    public bool holdingShield = true;
 
     public float speed = 1.0f;
     public float secondsThrowing = 1.5f;
@@ -30,6 +31,10 @@ public class ThrowSheild : MonoBehaviour {
             }
         }
         if (throwing) {
+            if (holdingShield) {
+                holdShield.SetActive(false);
+                holdingShield = false;
+            }
             if (throwingRight && !returning) {
                 currentSeconds += Time.deltaTime;
                 currentSeconds += Time.deltaTime;
@@ -59,6 +64,10 @@ public class ThrowSheild : MonoBehaviour {
             throwing = false;
             returning = false;
             GameObject.Destroy(other.gameObject);
+            if (!holdingShield) {
+                holdShield.SetActive(true);
+                holdingShield = true;
+            }
         }
     }
 }

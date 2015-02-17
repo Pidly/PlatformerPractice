@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Shoot : MonoBehaviour {
     public GameObject arrow;
-    public GameObject pointer;
+    public GameObject holdShield;
     public GameObject player;
 	void Start () {
 	
@@ -25,6 +25,6 @@ public class Shoot : MonoBehaviour {
         } else {
             position = new Vector2(player.transform.position.x + -.7f, player.transform.position.y);
         }
-        pointer.transform.position = position;
+        holdShield.transform.position = position;
 	}
 }
