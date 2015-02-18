@@ -5,31 +5,50 @@ public class ThrowSheild : MonoBehaviour {
     private GameObject throwShield;
     public GameObject throwShieldPrefab;
     public GameObject holdShield;
+    public GameObject shieldSlash;
 
     public bool throwing = false;
     public bool returning = false;
     public bool holdingShield = true;
+    public bool slashing = false;
 
     public float speed = 1.0f;
     public float secondsThrowing = 1.5f;
+    public float slashTime = 0.3f;
     private float currentSeconds = 0.0f;
+    private float currentThrowSeconds = 0.0f;
 
     public bool throwingRight;
 
 	void Start () {
-	
+        shieldSlash.SetActive(false);
 	}
 	
 
 	void Update () {
-        if (Input.GetButtonDown("Fire3")) {
+        if (Input.GetButtonDown("Fire3") && !slashing) {
             if (!throwing) {
                 currentSeconds = 0.0f;
                 throwingRight = UnitySampleAssets._2D.PlatformerCharacter2D.FacingRight();
                 throwing = true;
                 throwShield = Instantiate(throwShieldPrefab, gameObject.transform.position, Quaternion.identity) as GameObject;
             }
+        } 
+        if (Input.GetButtonDown("Fire1") && holdingShield && !slashing) {
+            Debug.Log("Shield Slash (Fire1 pressed)");
+            slashing = true;
         }
+
+        if (slashing) {
+            shieldSlash.SetActive(true);
+            currentThrowSeconds += Time.deltaTime;
+            if (currentThrowSeconds > slashTime) {
+                slashing = false;
+                shieldSlash.SetActive(false);
+                currentThrowSeconds = 0f;
+            }
+        }
+        
         if (throwing) {
             if (holdingShield) {
                 holdShield.SetActive(false);
