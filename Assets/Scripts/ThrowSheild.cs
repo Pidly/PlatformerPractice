@@ -35,12 +35,11 @@ public class ThrowSheild : MonoBehaviour {
             }
         } 
         if (Input.GetButtonDown("Fire1") && holdingShield && !slashing) {
-            Debug.Log("Shield Slash (Fire1 pressed)");
             slashing = true;
+            shieldSlash.SetActive(true);
         }
 
         if (slashing) {
-            shieldSlash.SetActive(true);
             currentThrowSeconds += Time.deltaTime;
             if (currentThrowSeconds > slashTime) {
                 slashing = false;
