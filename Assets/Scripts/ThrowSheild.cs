@@ -26,7 +26,7 @@ public class ThrowSheild : MonoBehaviour {
 	
 
 	void Update () {
-        if (Input.GetButtonDown("Fire3") && !slashing) {
+        if (Input.GetButtonDown("Fire3") && !slashing && holdingShield) {
             if (!throwing) {
                 currentSeconds = 0.0f;
                 throwingRight = UnitySampleAssets._2D.PlatformerCharacter2D.FacingRight();
@@ -36,12 +36,16 @@ public class ThrowSheild : MonoBehaviour {
         } 
         if (Input.GetButtonDown("Fire1") && holdingShield && !slashing) {
             slashing = true;
+            holdingShield = false;
             shieldSlash.SetActive(true);
+            holdShield.SetActive(false);
         }
 
         if (slashing) {
             currentThrowSeconds += Time.deltaTime;
             if (currentThrowSeconds > slashTime) {
+                holdingShield = true;
+                holdShield.SetActive(true);
                 slashing = false;
                 shieldSlash.SetActive(false);
                 currentThrowSeconds = 0f;
@@ -86,6 +90,20 @@ public class ThrowSheild : MonoBehaviour {
                 holdShield.SetActive(true);
                 holdingShield = true;
             }
+        }
+    }
+
+    public void disableHoldShield() {
+        if (holdingShield) {
+            holdingShield = false;
+            holdShield.SetActive(false);
+        }
+    }
+
+    public void enableHoldShield() {
+        if (!holdingShield && !throwing && !slashing && !returning) {
+            holdingShield = true;
+            holdShield.SetActive(true);
         }
     }
 }
